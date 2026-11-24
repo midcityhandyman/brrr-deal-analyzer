@@ -1,5 +1,7 @@
 # brrr-deal-analyzer
 
+**Live demo:** https://brrr-deal-analyzer.vercel.app (runs in the browser, no login)
+
 A buy, rehab, rent, refinance deal has four phases and each one hides costs that a quick spreadsheet tends to skip.
 This tool runs the whole deal from purchase to refinance and shows cash flow, returns, cash left in the deal and a score you can read line by line.
 
@@ -61,6 +63,8 @@ npm start
 ```
 
 Then open http://localhost:4173. Set `PORT` in the environment to use another port. No keys, accounts or network access are needed.
+
+The hosted demo is the same page as a static site: `npm run build:static` writes `web/` plus the compiled engine to `public/`, and `vercel.json` tells Vercel to run that build and serve that folder.
 
 ## Tests
 

@@ -108,7 +108,10 @@ test("warnings flag negative cash flow, weak coverage and a short refinance", ()
   deal.refinance.arv = 100000; // loan 75,000 cannot pay off the 80,000 bridge
   const r = analyzeDeal(deal);
   assert.ok(r.monthly.cashFlow < 0);
-  assert.ok(r.warnings.some((w) => w.startsWith("Negative cash flow")));
+  // The shortfall is printed as a positive amount, not "negative cash flow of -x".
+  const shortfall = r.warnings.find((w) => w.startsWith("Negative cash flow"));
+  assert.ok(shortfall?.includes(`${-r.monthly.cashFlow} short each month`), shortfall);
+  assert.ok(!shortfall?.includes("-"));
   assert.ok(r.warnings.some((w) => w.includes("below")));
   assert.ok(r.warnings.some((w) => w.includes("more cash is needed at closing")));
   assert.ok(r.warnings.some((w) => w.includes("higher than the after repair value")));
@@ -160,4 +163,41 @@ test("stress test: scenarios move the numbers in the expected direction", () => 
 test("sample deals all validate and cover the verdict range", () => {
   const verdicts = SAMPLE_DEALS.map((d) => analyzeDeal(d).score.verdict);
   assert.deepEqual(verdicts, ["strong", "workable", "pass"]);
+});
+
+test("validation names a missing section instead of crashing", () => {
+  const { refinance: _refinance, ...partial } = handDeal();
+  const problems = validateDeal(partial as DealInput);
+  assert.deepEqual(problems, ["refinance section is missing"]);
+  assert.throws(() => analyzeDeal(partial as DealInput), DealInputError);
+  assert.throws(() => analyzeDeal(null as unknown as DealInput), DealInputError);
+});
+
+test("stress test accepts a valid deal at the top of the rate range", () => {
+  const deal = handDeal();
+  deal.refinance.ratePct = 40; // the highest rate validation allows; the stress adds one point
+  const scenarios = stressTest(deal);
+  assert.equal(scenarios.length, 5);
+  assert.ok(scenarios[2].result.monthly.debtService > scenarios[0].result.monthly.debtService);
+  // A deal that is invalid to begin with is still refused.
+  deal.refinance.ratePct = 41;
+  assert.throws(() => stressTest(deal), DealInputError);
+});
+
+test("a deal with no cash invested is not scored as zero percent recovered", () => {
+  const deal = handDeal();
+  deal.purchase.closingCosts = 0;
+  deal.bridge = { loanPctOfPurchase: 100, loanPctOfRehab: 100, ratePct: 12, pointsPct: 0 };
+  deal.holding = { months: 0, monthlyCosts: 0 };
+  const r = analyzeDeal(deal);
+  assert.equal(r.acquisition.cashInvested, 0);
+  assert.ok(r.refinance.netProceeds < 0); // loan 135,000 minus 133,000 payoff minus 3,000 costs
+  const short = r.score.components.find((c) => c.key === "cashRecovered");
+  assert.equal(short?.points, 0);
+  assert.equal(short?.value, null);
+
+  deal.refinance.closingCosts = 0;
+  const covered = analyzeDeal(deal).score.components.find((c) => c.key === "cashRecovered");
+  assert.equal(covered?.points, covered?.maxPoints);
+  assert.ok(covered?.note.includes("nothing to recover"));
 });

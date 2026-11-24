@@ -114,9 +114,24 @@ export function scoreDeal(
     );
   }
 
-  components.push(
-    component("cashRecovered", "Cash recovered at refinance", "percent", config.cashRecovered, refinance.cashRecoveredPct),
-  );
+  // Cash invested is what is left in the deal plus what came back out. With nothing
+  // invested there is no percentage to measure, so the case is scored by rule.
+  const cashInvested = refinance.cashLeftInDeal + refinance.netProceeds;
+  if (cashInvested >= 1) {
+    components.push(
+      component("cashRecovered", "Cash recovered at refinance", "percent", config.cashRecovered, refinance.cashRecoveredPct),
+    );
+  } else {
+    const covered = refinance.netProceeds >= 0;
+    components.push(
+      component("cashRecovered", "Cash recovered at refinance", "percent", config.cashRecovered, null, {
+        points: covered ? config.cashRecovered.maxPoints : 0,
+        note: covered
+          ? "no cash was invested, so there is nothing to recover, full points"
+          : "no cash was invested but the refinance needs cash at closing, zero points",
+      }),
+    );
+  }
   components.push(component("equity", "Equity after refinance", "percent of value", config.equity, refinance.equityPct));
 
   const total = Math.round(components.reduce((sum, c) => sum + c.points, 0) * 10) / 10;

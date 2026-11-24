@@ -116,7 +116,7 @@ Score: 6.7 of 100 (pass)
   Cash recovered at refinance    0.0 / 15  value 4.49 percent, floor 50, target 100 (at or below floor)
   Equity after refinance         6.7 / 10  value 25 percent of value, floor 15, target 30 (between floor and target)
 Warnings:
-  - Negative cash flow of -696.82 per month after the refinance.
+  - Negative cash flow: 696.82 short each month after the refinance.
   - Debt service coverage of 0.43 is below 1.0: income does not cover the loan payment.
   - Total project cost is higher than the after repair value.
   - Rehab budget has no contingency.

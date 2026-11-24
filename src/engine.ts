@@ -80,7 +80,7 @@ export function analyzeRefinance(input: DealInput, acquisition: AcquisitionBreak
 function buildWarnings(input: DealInput, a: AcquisitionBreakdown, r: RefinanceBreakdown, m: MonthlyBreakdown, ret: Returns): string[] {
   const warnings: string[] = [];
   if (m.cashFlow < 0) {
-    warnings.push(`Negative cash flow of ${round2(m.cashFlow)} per month after the refinance.`);
+    warnings.push(`Negative cash flow: ${round2(-m.cashFlow)} short each month after the refinance.`);
   }
   if (ret.dscr !== null && ret.dscr < 1) {
     warnings.push(`Debt service coverage of ${round2(ret.dscr)} is below 1.0: income does not cover the loan payment.`);
@@ -106,7 +106,11 @@ function buildWarnings(input: DealInput, a: AcquisitionBreakdown, r: RefinanceBr
 export function analyzeDeal(input: DealInput, scoreConfig: ScoreConfig = DEFAULT_SCORE_CONFIG): DealResult {
   const problems = validateDeal(input);
   if (problems.length > 0) throw new DealInputError(problems);
+  return compute(input, scoreConfig);
+}
 
+/** The analysis itself, with no range checks. stressTest uses it so a stressed value may leave the input ranges. */
+function compute(input: DealInput, scoreConfig: ScoreConfig): DealResult {
   const acquisition = analyzeAcquisition(input);
   const refinance = analyzeRefinance(input, acquisition);
   const operations = analyzeOperations(input);
@@ -147,7 +151,10 @@ export interface Scenario {
   result: DealResult;
 }
 
-/** Re-runs the deal with one assumption stressed at a time. */
+/**
+ * Re-runs the deal with one assumption stressed at a time. The input is checked once;
+ * a stressed copy is not rejected for leaving the input ranges (a 40 percent rate plus one point).
+ */
 export function stressTest(input: DealInput, scoreConfig: ScoreConfig = DEFAULT_SCORE_CONFIG): Scenario[] {
   const variants: Array<[string, (d: DealInput) => void]> = [
     ["Base case", () => {}],
@@ -156,9 +163,11 @@ export function stressTest(input: DealInput, scoreConfig: ScoreConfig = DEFAULT_
     ["Appraisal 10 percent lower", (d) => { d.refinance.arv *= 0.9; }],
     ["Rehab 20 percent over budget", (d) => { d.rehab.budget *= 1.2; }],
   ];
+  const problems = validateDeal(input);
+  if (problems.length > 0) throw new DealInputError(problems);
   return variants.map(([label, mutate]) => {
     const copy: DealInput = structuredClone(input);
     mutate(copy);
-    return { label, result: analyzeDeal(copy, scoreConfig) };
+    return { label, result: compute(copy, scoreConfig) };
   });
 }

@@ -18,6 +18,10 @@ export function cashOnCashText(result: DealResult): string {
   return result.returns.infiniteReturn ? "infinite (no cash left in deal)" : "n/a (no cash left, no positive cash flow)";
 }
 
+export function cashRecoveredText(result: DealResult): string {
+  return result.acquisition.cashInvested < 1 ? "n/a (no cash invested)" : pct(result.refinance.cashRecoveredPct);
+}
+
 function row(label: string, value: string): string {
   return `  ${label.padEnd(34, ".")} ${value}`;
 }
@@ -41,7 +45,7 @@ export function formatReport(result: DealResult): string {
   lines.push(row("New loan", money(r.loanAmount)));
   lines.push(row("Net proceeds", money(r.netProceeds)));
   lines.push(row("Cash left in the deal", money(r.cashLeftInDeal)));
-  lines.push(row("Cash recovered", pct(r.cashRecoveredPct)));
+  lines.push(row("Cash recovered", cashRecoveredText(result)));
   lines.push(row("Equity after refinance", `${money(r.equity)} (${pct(r.equityPct)})`));
   lines.push("Results");
   lines.push(row("Debt service", `${money(m.debtService)} per month`));

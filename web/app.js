@@ -3,6 +3,7 @@
 import {
   analyzeDeal,
   cashOnCashText,
+  cashRecoveredText,
   DealInputError,
   money,
   pct,
@@ -179,7 +180,7 @@ function render() {
         ["Cash invested before refinance", money(a.cashInvested)],
         ["Refinance loan", money(r.loanAmount)],
         ["Net refinance proceeds", money(r.netProceeds)],
-        ["Cash recovered", pct(r.cashRecoveredPct)],
+        ["Cash recovered", cashRecoveredText(result)],
         ["Equity after refinance", `${money(r.equity)} (${pct(r.equityPct)})`],
         ["Effective income per month", money(m.effectiveIncome)],
         ["Operating expenses per month", money(m.operatingExpenses)],

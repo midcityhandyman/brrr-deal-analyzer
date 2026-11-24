@@ -13,6 +13,11 @@ type Rule = [path: string, value: number, min: number, max: number];
 
 /** Returns a list of human readable problems. An empty list means the input is usable. */
 export function validateDeal(input: DealInput): string[] {
+  const sections = ["purchase", "bridge", "rehab", "holding", "rent", "expenses", "refinance"] as const;
+  const shape = (input ?? {}) as Partial<Record<(typeof sections)[number], unknown>>;
+  const missing = sections.filter((key) => typeof shape[key] !== "object" || shape[key] === null);
+  if (missing.length > 0) return missing.map((key) => `${key} section is missing`);
+
   const big = 1e9;
   const rules: Rule[] = [
     ["purchase.price", input.purchase.price, 1, big],

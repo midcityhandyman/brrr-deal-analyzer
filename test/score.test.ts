@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { analyzeDeal } from "../src/engine.js";
-import { formatReport, money, pct } from "../src/report.js";
+import { cashRecoveredText, formatReport, money, pct } from "../src/report.js";
 import { SAMPLE_DEALS } from "../src/samples.js";
 import { DEFAULT_SCORE_CONFIG, linearPoints, verdictFor } from "../src/score.js";
 
@@ -62,5 +62,8 @@ test("report formatting", () => {
   const text = formatReport(analyzeDeal(SAMPLE_DEALS[0]));
   assert.ok(text.includes("Cash left in the deal"));
   assert.ok(text.includes("Score:"));
+  const base = analyzeDeal(SAMPLE_DEALS[0]);
+  assert.equal(cashRecoveredText(base), "82.0%");
+  assert.equal(cashRecoveredText({ ...base, acquisition: { ...base.acquisition, cashInvested: 0 } }), "n/a (no cash invested)");
   assert.ok(!text.includes(String.fromCharCode(8212)));
 });

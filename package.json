@@ -1,0 +1,20 @@
+{
+  "name": "brrr-deal-analyzer",
+  "version": "0.1.0",
+  "description": "Rental deal analyzer for the buy, rehab, rent, refinance strategy. TypeScript engine, unit tests, static single page UI.",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test dist/test/",
+    "demo": "npm run build && node dist/demo/run-demo.js",
+    "start": "npm run build && node scripts/serve.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.6.3"
+  }
+}

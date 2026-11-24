@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BRRR Deal Analyzer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>BRRR Deal Analyzer</h1>
+    <p>Buy, rehab, rent, refinance. Change any input and the numbers update. Sample deals use invented numbers.</p>
+    <p class="disclaimer">Not financial advice. This is a calculator with fixed assumptions, not a recommendation to buy anything.</p>
+  </header>
+  <main>
+    <section class="inputs">
+      <label class="preset">Sample deal
+        <select id="preset"></select>
+      </label>
+      <form id="deal-form" novalidate></form>
+    </section>
+    <section class="results" aria-live="polite">
+      <div id="errors" class="errors" hidden></div>
+      <div id="headline" class="headline"></div>
+      <h2>Score</h2>
+      <div id="score"></div>
+      <h2>Warnings</h2>
+      <ul id="warnings"></ul>
+      <h2>Breakdown</h2>
+      <div id="breakdown"></div>
+      <h2>Stress test</h2>
+      <div id="stress"></div>
+    </section>
+  </main>
+  <noscript>This page needs JavaScript to run the calculator.</noscript>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

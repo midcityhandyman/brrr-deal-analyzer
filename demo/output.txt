@@ -1,0 +1,134 @@
+BRRR deal analyzer demo
+All deals below use invented numbers. This is not financial advice.
+
+=== Sample Duplex A (invented numbers) ===
+Buy and rehab
+  Rehab with contingency............ $41,800
+  Bridge loan....................... $120,000
+  Bridge points and interest........ $7,900
+  Holding costs..................... $2,100
+  Total project cost................ $147,000
+  Cash invested..................... $27,000
+Rent (stabilized month)
+  Effective income.................. $2,247
+  Operating expenses................ $881
+  Net operating income.............. $1,366
+Refinance
+  New loan.......................... $146,250
+  Net proceeds...................... $22,150
+  Cash left in the deal............. $4,850
+  Cash recovered.................... 82.0%
+  Equity after refinance............ $48,750 (25.0%)
+Results
+  Debt service...................... $998 per month
+  Cash flow......................... $368 per month
+  Cash on cash return............... 91.1%
+  Debt service coverage............. 1.37
+  Cap rate on value................. 8.4%
+  Rent to cost...................... 1.76%
+  All in cost to value.............. 75.4%
+Score: 89.4 of 100 (strong)
+  Monthly cash flow             25.0 / 25  value 368.22 per month, floor 0, target 300 (at or above target)
+  Cash on cash return           25.0 / 25  value 91.11 percent, floor 0, target 12 (at or above target)
+  Debt service coverage         23.1 / 25  value 1.37 ratio, floor 1, target 1.4 (between floor and target)
+  Cash recovered at refinance    9.6 / 15  value 82.04 percent, floor 50, target 100 (between floor and target)
+  Equity after refinance         6.7 / 10  value 25 percent of value, floor 15, target 30 (between floor and target)
+Warnings: none
+Stress test
+  Scenario                          Cash flow   DSCR  Cash left  Score  Verdict
+  Base case                              $368   1.37     $4,850   89.4  strong
+  Rent 10 percent lower                  $193   1.19     $4,850   69.5  workable
+  Refinance rate 1 point higher          $267   1.24     $4,850   78.8  strong
+  Appraisal 10 percent lower             $468   1.52    $19,475   81.7  strong
+  Rehab 20 percent over budget           $368   1.37    $13,760   79.8  strong
+
+=== Sample Bungalow B (invented numbers) ===
+Buy and rehab
+  Rehab with contingency............ $29,700
+  Bridge loan....................... $78,400
+  Bridge points and interest........ $3,920
+  Holding costs..................... $1,520
+  Total project cost................ $137,040
+  Cash invested..................... $58,640
+Rent (stabilized month)
+  Effective income.................. $1,721
+  Operating expenses................ $711
+  Net operating income.............. $1,009
+Refinance
+  New loan.......................... $120,000
+  Net proceeds...................... $37,800
+  Cash left in the deal............. $20,840
+  Cash recovered.................... 64.5%
+  Equity after refinance............ $40,000 (25.0%)
+Results
+  Debt service...................... $839 per month
+  Cash flow......................... $170 per month
+  Cash on cash return............... 9.8%
+  Debt service coverage............. 1.20
+  Cap rate on value................. 7.6%
+  Rent to cost...................... 1.45%
+  All in cost to value.............. 85.7%
+Score: 58.3 of 100 (workable)
+  Monthly cash flow             14.2 / 25  value 169.97 per month, floor 0, target 300 (between floor and target)
+  Cash on cash return           20.4 / 25  value 9.79 percent, floor 0, target 12 (between floor and target)
+  Debt service coverage         12.7 / 25  value 1.2 ratio, floor 1, target 1.4 (between floor and target)
+  Cash recovered at refinance    4.3 / 15  value 64.46 percent, floor 50, target 100 (between floor and target)
+  Equity after refinance         6.7 / 10  value 25 percent of value, floor 15, target 30 (between floor and target)
+Warnings: none
+Stress test
+  Scenario                          Cash flow   DSCR  Cash left  Score  Verdict
+  Base case                              $170   1.20    $20,840   58.3  workable
+  Rent 10 percent lower                   $36   1.04    $20,840   21.0  pass
+  Refinance rate 1 point higher           $86   1.09    $20,840   34.4  pass
+  Appraisal 10 percent lower             $254   1.34    $32,840   68.2  workable
+  Rehab 20 percent over budget           $170   1.20    $26,780   52.1  marginal
+
+=== Sample Ranch C (invented numbers) ===
+Buy and rehab
+  Rehab with contingency............ $44,000
+  Bridge loan....................... $162,800
+  Bridge points and interest........ $14,652
+  Holding costs..................... $3,570
+  Total project cost................ $243,022
+  Cash invested..................... $80,222
+Rent (stabilized month)
+  Effective income.................. $1,564
+  Operating expenses................ $1,036
+  Net operating income.............. $528
+Refinance
+  New loan.......................... $171,000
+  Net proceeds...................... $3,600
+  Cash left in the deal............. $76,622
+  Cash recovered.................... 4.5%
+  Equity after refinance............ $57,000 (25.0%)
+Results
+  Debt service...................... $1,225 per month
+  Cash flow......................... -$697 per month
+  Cash on cash return............... -10.9%
+  Debt service coverage............. 0.43
+  Cap rate on value................. 2.8%
+  Rent to cost...................... 0.77%
+  All in cost to value.............. 106.6%
+Score: 6.7 of 100 (pass)
+  Monthly cash flow              0.0 / 25  value -696.82 per month, floor 0, target 300 (at or below floor)
+  Cash on cash return            0.0 / 25  value -10.91 percent, floor 0, target 12 (at or below floor)
+  Debt service coverage          0.0 / 25  value 0.43 ratio, floor 1, target 1.4 (at or below floor)
+  Cash recovered at refinance    0.0 / 15  value 4.49 percent, floor 50, target 100 (at or below floor)
+  Equity after refinance         6.7 / 10  value 25 percent of value, floor 15, target 30 (between floor and target)
+Warnings:
+  - Negative cash flow of -696.82 per month after the refinance.
+  - Debt service coverage of 0.43 is below 1.0: income does not cover the loan payment.
+  - Total project cost is higher than the after repair value.
+  - Rehab budget has no contingency.
+Stress test
+  Scenario                          Cash flow   DSCR  Cash left  Score  Verdict
+  Base case                             -$697   0.43    $76,622    6.7  pass
+  Rent 10 percent lower                 -$814   0.34    $76,622    6.7  pass
+  Refinance rate 1 point higher         -$817   0.39    $76,622    6.7  pass
+  Appraisal 10 percent lower            -$574   0.48    $93,722    6.7  pass
+  Rehab 20 percent over budget          -$697   0.43    $85,818    6.7  pass
+
+Ranked summary
+  1. Sample Duplex A (invented numbers)     score  89.4  strong    cash flow $368 per month
+  2. Sample Bungalow B (invented numbers)   score  58.3  workable  cash flow $170 per month
+  3. Sample Ranch C (invented numbers)      score   6.7  pass      cash flow -$697 per month
